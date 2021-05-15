@@ -1,0 +1,363 @@
+MPASM 5.84                   2_DISP_7SEG.ASM   10-9-2020  20:55:22         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; TODO INSERT CONFIG CODE HERE USING CONFIG BITS GENERATOR
+                      00002 
+                      00003 
+                      00004 ; PIC16F84A Configuration Bit Settings
+                      00005 
+                      00006 ; Assembly source line config statements
+                      00007 
+                      00008 #include "p16f84a.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Mar 17 2019
+                      00005 ;  MPASM PIC16F84A processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2019 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00209         LIST
+                      00009 
+                      00010 ; CONFIG
+                      00011 ; __config 0xFFF9
+2007   3FF9           00012  __CONFIG _FOSC_XT & _WDTE_OFF & _PWRTE_OFF & _CP_OFF
+                      00013 
+                      00014  
+Warning[207]: Found label after column 1. (CONTADOR)
+  00000020            00015  CONTADOR EQU 0x20
+Warning[207]: Found label after column 1. (LIMITE)
+  00000021            00016  LIMITE EQU 0x21
+Warning[207]: Found label after column 1. (CONTADOR2)
+  00000022            00017  CONTADOR2 EQU 0x22
+Warning[207]: Found label after column 1. (LIMITE2)
+  00000023            00018  LIMITE2 EQU 0x23
+Warning[207]: Found label after column 1. (MONITOR)
+  00000030            00019  MONITOR EQU 0x30
+Warning[207]: Found label after column 1. (MONITOR2)
+  00000031            00020  MONITOR2 EQU 0x31
+Warning[207]: Found label after column 1. (A)
+  00000032            00021  A EQU 0x32
+Warning[207]: Found label after column 1. (NUMERO)
+  00000033            00022  NUMERO EQU 0x33
+Warning[207]: Found label after column 1. (DELAY)
+  00000034            00023  DELAY EQU 0x34
+Warning[207]: Found label after column 1. (CONT)
+  00000024            00024  CONT EQU 0x24
+                      00025  
+                      00026     
+                      00027 RES_VECT  CODE    0x0000            ; processor reset vector
+0000   2???           00028     GOTO    START                   ; go to beginning of program
+                      00029     
+                      00030 ISR CODE 0x0004
+0004   2???           00031     GOTO TIMER_INT
+                      00032 
+                      00033 ; TODO ADD INTERRUPTS HERE IF USED
+MPASM 5.84                   2_DISP_7SEG.ASM   10-9-2020  20:55:22         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00034 
+                      00035 MAIN_PROG CODE                      ; let linker place main program
+                      00036 
+0000                  00037 START
+                      00038 
+0000   1683           00039             BSF STATUS, RP0
+0001   3000           00040             MOVLW 0x00
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0002   0086           00041             MOVWF TRISB
+0003   3001           00042             MOVLW 0x01
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   0085           00043             MOVWF TRISA
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0005   1281           00044             BCF OPTION_REG, T0CS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0006   1201           00045             BCF OPTION_REG, T0SE
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0007   1181           00046             BCF OPTION_REG, PSA
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0008   1401           00047             BSF OPTION_REG, PS0
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0009   1481           00048             BSF OPTION_REG, PS1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000A   1501           00049             BSF OPTION_REG, PS2
+000B   3000           00050             MOVLW 0x00
+000C   008B           00051             MOVWF INTCON
+000D   168B           00052             BSF INTCON, T0IE
+000E   178B           00053             BSF INTCON, GIE
+000F   1283           00054             BCF STATUS, RP0
+                      00055     
+0010   303F           00056             MOVLW 0x3F
+0011   0090           00057             MOVWF 0x10
+0012   3006           00058             MOVLW 0x06
+0013   0091           00059             MOVWF 0x11
+0014   305B           00060             MOVLW 0x5B
+0015   0092           00061             MOVWF 0x12
+0016   304F           00062             MOVLW 0x4F
+0017   0093           00063             MOVWF 0x13
+0018   3066           00064             MOVLW 0x66
+0019   0094           00065             MOVWF 0x14
+001A   306D           00066             MOVLW 0x6D
+001B   0095           00067             MOVWF 0x15
+001C   307D           00068             MOVLW 0x7D
+001D   0096           00069             MOVWF 0x16
+001E   3007           00070             MOVLW 0x07
+001F   0097           00071             MOVWF 0x17
+0020   307F           00072             MOVLW 0x7F
+0021   0098           00073             MOVWF 0x18
+0022   306F           00074             MOVLW 0x6F
+0023   0099           00075             MOVWF 0x19
+                      00076     
+0024   3004           00077             MOVLW 0x04
+0025   00B4           00078             MOVWF DELAY
+MPASM 5.84                   2_DISP_7SEG.ASM   10-9-2020  20:55:22         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00079             
+0026   3000           00080 INICIO      MOVLW 0x00
+0027   00A4           00081             MOVWF CONT
+                      00082             
+0028   1C05           00083 IDENTIFICA  BTFSS PORTA, RA0
+0029   2???           00084             GOTO PONLOS
+002A   2???           00085             GOTO INCREMENTO
+                      00086             
+Message[305]: Using default destination of 1 (file).
+002B   0AA4           00087 INCREMENTO  INCF CONT
+002C   3010           00088             MOVLW 0x10
+002D   0224           00089             SUBWF CONT, 0
+002E   1D03           00090             BTFSS STATUS, Z
+002F   2???           00091             GOTO PONLOS
+0030   2???           00092             GOTO INICIO
+                      00093             
+0031                  00094 PONLOS      ;CLRF PORTA
+0031   0824           00095             MOVF CONT, 0
+0032   00B0           00096             MOVWF MONITOR
+0033   1DB0           00097             BTFSS MONITOR, 3
+0034   2???           00098             GOTO IDENT_1
+0035   1D30           00099             BTFSS MONITOR, 2
+0036   2???           00100             GOTO ULTIMO
+0037   2???           00101             GOTO DECENA
+                      00102 
+0038   1CB0           00103 ULTIMO      BTFSS MONITOR, 1
+0039   2???           00104             GOTO IDENT_1
+                      00105         
+003A   3006           00106 DECENA      MOVLW 0x06
+003B   0086           00107             MOVWF PORTB
+003C   1085           00108             BCF PORTA, RA1
+003D   1505           00109             BSF PORTA, RA2
+003E   3007           00110             MOVLW 0x07
+003F   0530           00111             ANDWF MONITOR, 0
+0040   00B1           00112             MOVWF MONITOR2
+0041   3002           00113             MOVLW 0x02
+0042   02B1           00114             SUBWF MONITOR2, 1
+0043   0831           00115             MOVF MONITOR2, 0
+0044   00B3           00116             MOVWF NUMERO
+0045   01B2           00117             CLRF A
+0046   01A0           00118             CLRF CONTADOR
+0047   2???           00119             CALL RETRASO
+                      00120         
+0048   1905           00121 IDENT_1     BTFSC PORTA, RA2
+0049   2???           00122             GOTO IDENT_2
+004A   0830           00123             MOVF MONITOR, 0
+004B   00B3           00124             MOVWF NUMERO
+004C   01B2           00125             CLRF A
+                      00126         
+004D   0832           00127 IDENT_2     MOVF A, 0
+004E   0233           00128             SUBWF NUMERO, 0
+004F   1D03           00129             BTFSS STATUS, Z
+0050   2???           00130             GOTO NEXT
+MPASM 5.84                   2_DISP_7SEG.ASM   10-9-2020  20:55:22         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0051   2???           00131             GOTO EXHIBE
+                      00132         
+Message[305]: Using default destination of 1 (file).
+0052   0AB2           00133 NEXT        INCF A
+0053   2???           00134             GOTO IDENT_2
+                      00135         
+0054   3010           00136 EXHIBE      MOVLW 0x10
+0055   0084           00137             MOVWF FSR
+0056   0832           00138             MOVF A, 0
+0057   0784           00139             ADDWF FSR, 1
+0058   0800           00140             MOVF INDF, 0
+0059   1105           00141             BCF PORTA, RA2
+005A   1085           00142             BCF PORTA, RA1
+005B   0086           00143             MOVWF PORTB
+005C   1105           00144             BCF PORTA, RA2
+005D   1485           00145             BSF PORTA, RA1
+005E   01A0           00146             CLRF CONTADOR
+005F   2???           00147             CALL RETRASO
+0060   2???           00148             GOTO IDENTIFICA
+                      00149         
+0061   0820           00150 RETRASO     MOVF CONTADOR, 0
+0062   0234           00151             SUBWF DELAY, 0
+0063   1D03           00152             BTFSS STATUS, Z
+0064   2???           00153             GOTO RETRASO
+0065   01A0           00154             CLRF CONTADOR
+0066   0008           00155             RETURN
+                      00156         
+Message[305]: Using default destination of 1 (file).
+0067   0AA0           00157 TIMER_INT   INCF CONTADOR
+0068   110B           00158             BCF INTCON, T0IF
+0069   300A           00159             MOVLW 0x0A
+006A   0081           00160             MOVWF TMR0
+006B   0009           00161             RETFIE
+                      00162 
+3FF9                  00163     END
+MPASM 5.84                   2_DISP_7SEG.ASM   10-9-2020  20:55:22         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+A                                 00000032
+C                                 00000000
+CONT                              00000024
+CONTADOR                          00000020
+CONTADOR2                         00000022
+DC                                00000001
+DECENA                            0000003A
+DELAY                             00000034
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+EXHIBE                            00000054
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+IDENTIFICA                        00000028
+IDENT_1                           00000048
+IDENT_2                           0000004D
+INCREMENTO                        0000002B
+INDF                              00000000
+INICIO                            00000026
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LIMITE                            00000021
+LIMITE2                           00000023
+MONITOR                           00000030
+MONITOR2                          00000031
+NEXT                              00000052
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+NUMERO                            00000033
+OPTION_REG                        00000081
+PCL                               00000002
+PCLATH                            0000000A
+PONLOS                            00000031
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+MPASM 5.84                   2_DISP_7SEG.ASM   10-9-2020  20:55:22         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+RETRASO                           00000061
+RP0                               00000005
+RP1                               00000006
+START                             00000000
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+TIMER_INT                         00000067
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+ULTIMO                            00000038
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_CONFIG                           00002007
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_DEVID1                           00002006
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+MPASM 5.84                   2_DISP_7SEG.ASM   10-9-2020  20:55:22         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84A                          00000001
+
+Errors   :     0
+Warnings :    10 reported,     0 suppressed
+Messages :    11 reported,     0 suppressed
+
+
